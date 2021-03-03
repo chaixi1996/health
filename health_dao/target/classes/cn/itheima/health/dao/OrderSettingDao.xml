@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.itheima.health.dao.OrderSettingDao">
+    <insert id="add" parameterType="cn.itheima.health.pojo.OrderSetting">
+        insert into t_ordersetting(orderDate,number,reservations)
+        values (#{orderDate},#{number},#{reservations})
+    </insert>
+    <update id="updateNumber" parameterType="cn.itheima.health.pojo.OrderSetting">
+        update t_ordersetting
+        set number=#{number}
+        where orderDate=#{orderDate}
+    </update>
+    <update id="editNumberByOrderDate" parameterType="cn.itheima.health.pojo.OrderSetting">
+        update t_ordersetting
+        set number=#{number}
+        where orderDate=#{orderDate}
+    </update>
+
+    <select id="findByOrderDate" resultType="cn.itheima.health.pojo.OrderSetting" parameterType="date">
+        select * from t_ordersetting where orderDate = #{orderDate}
+    </select>
+    <select id="getOrderSettingByMonth" resultType="map" parameterType="map">
+        select CAST(DATE_FORMAT(ORDERDATE,"%d") as UNSIGNED) date,number,reservations
+        from t_ordersetting
+        where orderdate BETWEEN #{startDate} and #{endDate}
+    </select>
+</mapper>

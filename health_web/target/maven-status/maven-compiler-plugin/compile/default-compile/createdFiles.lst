@@ -1,0 +1,5 @@
+cn\itheima\health\controller\CheckItemController.class
+cn\itheima\health\controller\SetMealController.class
+cn\itheima\health\controller\CheckGroupController.class
+cn\itheima\health\controller\HealthExceptionAdvice.class
+cn\itheima\health\controller\OrderSettingController.class

@@ -1,0 +1,10 @@
+cn\itheima\health\pojo\Role.class
+cn\itheima\health\pojo\CheckGroup.class
+cn\itheima\health\pojo\Order.class
+cn\itheima\health\pojo\Menu.class
+cn\itheima\health\pojo\User.class
+cn\itheima\health\pojo\Member.class
+cn\itheima\health\pojo\OrderSetting.class
+cn\itheima\health\pojo\Permission.class
+cn\itheima\health\pojo\CheckItem.class
+cn\itheima\health\pojo\Setmeal.class
