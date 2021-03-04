@@ -45,11 +45,7 @@ function getSpecifiedDate(date,days) {
  */
 function checkTelephone(telephone) {
     var reg=/^[1][3,4,5,7,8][0-9]{9}$/;
-    if (!reg.test(telephone)) {
-        return false;
-    } else {
-        return true;
-    }
+    return reg.test(telephone);
 }
 
 /**
@@ -58,11 +54,7 @@ function checkTelephone(telephone) {
  */
 function checkIdCard(idCard){
     var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
-    if(reg.test(idCard)){
-        return true;
-    }else{
-        return false;
-    }
+    return reg.test(idCard);
 }
 
 var clock = '';//定时器对象，用于页面30秒倒计时效果

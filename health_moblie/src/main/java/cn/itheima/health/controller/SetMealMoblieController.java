@@ -6,10 +6,7 @@ import cn.itheima.health.pojo.Setmeal;
 import cn.itheima.health.service.SetMealService;
 import cn.itheima.health.utlis.QiNiuUtils;
 import com.alibaba.dubbo.config.annotation.Reference;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -41,5 +38,13 @@ public class SetMealMoblieController {
         //拼接图片完整路径
         setmeal.setImg(QiNiuUtils.DOMAIN + setmeal.getImg());
         return new Result(true, MessageConstant.QUERY_SETMEALLIST_SUCCESS, setmeal);
+    }
+
+    @PostMapping("/findById")
+    public Result findById(int id){
+        //套餐信息
+        Setmeal setmeal = setMealService.findById(id);
+        setmeal.setImg(QiNiuUtils.DOMAIN+setmeal.getImg());
+        return new Result(true, MessageConstant.QUERY_SETMEAL_SUCCESS,setmeal);
     }
 }
