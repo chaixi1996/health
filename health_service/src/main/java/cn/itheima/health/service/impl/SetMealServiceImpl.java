@@ -118,6 +118,8 @@ public class SetMealServiceImpl implements SetMealService {
         });
         //生成列表的静态文件
         generateSetmeal(setmealList);
+        //套餐详情页面
+        generateSetmealDatals(setmealList);
         return setmealList;
     }
 
@@ -126,28 +128,11 @@ public class SetMealServiceImpl implements SetMealService {
 
     @Value("${out_put_path}")
     private String out_put_path;
-
-    private void genereteHtml(String templateName, Map<String, Object> setmealmap, String filename) {
-        //获取模板
-        Configuration configuration = freeMarkerConfigurer.getConfiguration();
-        try {
-            Template template = configuration.getTemplate("mobile_setmeal.ftl");
-            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(filename), "UTF-8"));
-            //填充模板
-            template.process(setmealmap, bw);
-            //关闭
-            bw.flush();
-            bw.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-
-
-
-
-
-        }
-    }
-
+ /***
+  *生成详情页面
+  * @param setmealList:
+  * @return: void
+  **/
     private void generateSetmealDatals(List<Setmeal> setmealList) {
         for (Setmeal setmeal : setmealList) {
             //实例检查组与检查项信息
@@ -158,23 +143,39 @@ public class SetMealServiceImpl implements SetMealService {
             Map<String, Object> setmealMap = new HashMap<>();
             setmealMap.put("setmeal", byDetailId);
             String templateName = "mobile_setmeal_detail.ftl";
-            //配置完整路径
             String fileName = String.format("%s/setmeal_%d.html", out_put_path, byDetailId.getId());
             genereteHtml(templateName, setmealMap, fileName);
         }
     }
 
     /***
-     *
-     * @param setmealList: 
+     *生成套餐静态化页面
+     * @param setmealList:
      * @return: void
      **/
     private void generateSetmeal(List<Setmeal> setmealList) {
         Map<String, Object> setmealmap = new HashMap<>();
+        //key setmeallist 与模板中的变量一致
         setmealmap.put("setmealList", setmealList);
-        //构建输出
-        String output = out_put_path + "mobile_setmeal.html";
-        genereteHtml("mobile_setmeal.ftl", setmealmap, output);
+        //输出
+        String setmealListFile = out_put_path + "/mobile_setmeal.html";
+        genereteHtml("mobile_setmeal.ftl", setmealmap, setmealListFile);
+    }
+
+    private void genereteHtml(String templateName, Map<String, Object> setmealmap, String filename) {
+        //获取模板
+        Configuration configuration = freeMarkerConfigurer.getConfiguration();
+        try {
+            Template template = configuration.getTemplate(templateName);
+            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(filename), "UTF-8"));
+            //填充模板
+            template.process(setmealmap, bw);
+            //关闭
+            bw.flush();
+            bw.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
