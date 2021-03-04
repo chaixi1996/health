@@ -140,6 +140,27 @@ public class SetMealServiceImpl implements SetMealService {
             bw.close();
         } catch (Exception e) {
             e.printStackTrace();
+
+
+
+
+
+        }
+    }
+
+    private void generateSetmealDatals(List<Setmeal> setmealList) {
+        for (Setmeal setmeal : setmealList) {
+            //实例检查组与检查项信息
+            Setmeal byDetailId = setMealDao.findByDetailId(setmeal.getId());
+            //设置完整的图片路径
+            byDetailId.setImg(setmeal.getImg());
+            //构建数据
+            Map<String, Object> setmealMap = new HashMap<>();
+            setmealMap.put("setmeal", byDetailId);
+            String templateName = "mobile_setmeal_detail.ftl";
+            //配置完整路径
+            String fileName = String.format("%s/setmeal_%d.html", out_put_path, byDetailId.getId());
+            genereteHtml(templateName, setmealMap, fileName);
         }
     }
 

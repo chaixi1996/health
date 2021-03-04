@@ -6,8 +6,8 @@
        http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/context
        http://www.springframework.org/schema/context/spring-context.xsd">
-    <!--引入freemarker路径文件-->
-    <context:property-placeholder location="classpath:freemarker.properties"/>
+    <!--引入freemarker路径文件，如果读取不到可以加上ignore-unresolvable="true"，或者直接写死路径-->
+    <context:property-placeholder location="classpath:freemarker.properties" ignore-unresolvable="true"/>
     <bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
         <!--指定模板文件所在目录-->
         <property name="templateLoaderPath" value="/WEB-INF/ftl/"/>
