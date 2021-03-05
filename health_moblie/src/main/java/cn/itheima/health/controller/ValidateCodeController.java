@@ -29,7 +29,7 @@ public class ValidateCodeController {
     @Autowired
     private JedisPool jedisPool;
 
-    /***
+    /**
      *体检预约发送验证码
      * @param telephone:
      * @return: cn.itheima.health.entity.Result
@@ -59,4 +59,32 @@ public class ValidateCodeController {
         }
         return new Result(false,MessageConstant.SEND_VALIDATECODE_FAIL);
     }
+
+    @PostMapping("/send4Login")
+    public Result send4Login(String telephone){
+        Jedis jedis = jedisPool.getResource();
+        //先从redis中获取看是否存在
+        String key = RedisMessageConstant.SENDTYPE_LOGIN + ":" + telephone;
+        String codeInRedis = jedis.get(key);
+        if (null != codeInRedis) {
+            //不为空，发发送过了
+            return new Result(true,MessageConstant.SEND_VALIDATECODE_SUCCESS);
+        }
+        //不存在
+        //生成验证码
+        String validatecode = ValidateCodeUtils.generateValidateCode(6) + "";
+        //调用SMSutis发送短息
+        try {
+            SMSUtils.sendShortMessage(SMSUtils.VALIDATE_CODE,telephone,validatecode);
+            //发送成功存入redis
+            jedis.setex(key,10*60,validatecode);
+            jedis.close();
+            return new Result(true,MessageConstant.SEND_VALIDATECODE_SUCCESS);
+        } catch (ClientException e) {
+            e.printStackTrace();
+        }
+        return new Result(false,MessageConstant.SEND_VALIDATECODE_FAIL);
+    }
 }
+
+

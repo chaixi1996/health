@@ -66,8 +66,14 @@
                 orderInfo:{}
             },
             mounted(){
-                axios.post("/order/findById.do?id=" + id).then((response) => {
-                    this.orderInfo = response.data.data;
+                axios.get("/order/findById.do?id=" + id).then((response) => {
+                    if (response.data.flag) {
+                       var orderInfo =  response.data.data;
+                       orderInfo.orderDate = orderDate.substring(0,10);
+                        this.orderInfo = orderInfo;
+                    }else{
+                        alert(response.data.message)
+                    }
                 });
             }
         });

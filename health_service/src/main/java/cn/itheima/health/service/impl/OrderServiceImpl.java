@@ -10,8 +10,8 @@ import cn.itheima.health.pojo.OrderSetting;
 import cn.itheima.health.service.OrderService;
 import com.alibaba.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -37,7 +37,8 @@ public class OrderServiceImpl implements OrderService {
     private OrderDao orderDao;
 
     @Override
-    public Order submit(Map<String, String> paraMap) {
+    @Transactional(rollbackFor = Exception.class)
+    public Order submit(Map<String, String> paraMap) throws HealthException {
         //1，通过日期查询预约设置是否存在	t_orderetting
         String orderD = paraMap.get("orderDate");
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -92,5 +93,11 @@ public class OrderServiceImpl implements OrderService {
         //4，更新已经预约的数量	t_ordersetting
         orderSettingDao.editReservationsByOrderDate(os);
         return order;
+    }
+
+    @Override
+    public Map<String, Object> findOrderDetail(int id) {
+        Map<String, Object> detail = orderDao.findById4Detail(id);
+        return detail;
     }
 }

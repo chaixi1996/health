@@ -8,13 +8,11 @@ import cn.itheima.health.service.OrderService;
 import com.alibaba.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -35,6 +33,11 @@ public class OrderController {
     @Reference
     private OrderService orderService;
 
+    /**
+     *体检预约
+     * @param paraMap:
+     * @return: cn.itheima.health.entity.Result
+     **/
     @PostMapping("/submit")
     public Result submit(@RequestBody Map<String,String> paraMap){
         //验证码校验
@@ -61,5 +64,17 @@ public class OrderController {
         paraMap.put("orderType",Order.ORDERTYPE_WEIXIN);
         Order order = orderService.submit(paraMap);
         return new Result(true,MessageConstant.ORDER_SUCCESS,order);
+    }
+
+    /**
+     *select m.name member, s.name setmeal, o.orderDate, o.orderType
+     * from t_order o,t_setmeal s,t_member m where s.id=o.setmeal_id and
+     * o.member_id=m.id and o.id=18
+      *预约成功方法
+       **/
+    @GetMapping("/findById")
+    public Result findById(int id){
+        Map<String, Object> orderDetail = orderService.findOrderDetail(id);
+        return new Result(true,MessageConstant.ORDER_SUCCESS,orderDetail);
     }
 }
