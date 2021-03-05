@@ -90,7 +90,7 @@ public class OrderServiceImpl implements OrderService {
         order.setOrderStatus(Order.ORDERSTATUS_NO);
         orderDao.add(order);
         //4，更新已经预约的数量	t_ordersetting
-        orderSettingDao.editReservationsByOrderDate();
+        orderSettingDao.editReservationsByOrderDate(os);
         return order;
     }
 }
