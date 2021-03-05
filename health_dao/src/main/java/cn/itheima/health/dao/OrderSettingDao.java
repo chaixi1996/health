@@ -16,13 +16,36 @@ import java.util.Map;
  * @Version: 1.0
  */
 public interface OrderSettingDao {
+    /**
+     * 通过日期查询预约设置信息
+     * @param orderDate
+     * @return
+     */
     OrderSetting findByOrderDate(Date orderDate);
 
-    void updateNumber(OrderSetting orderSetting);
+    /**
+     * 更新可预约数
+     * @param os
+     */
+    void updateNumber(OrderSetting os);
 
-    void add(OrderSetting orderSetting);
+    /**
+     * 添加预约设置
+     * @param os
+     */
+    void add(OrderSetting os);
 
+    /**
+     * 通过月份查询预约设置信息
+     * @param map
+     * @return
+     */
     List<Map<String, Integer>> getOrderSettingByMonth(Map<String, String> map);
 
-    void editNumberByOrderDate(OrderSetting orderSetting);
+    /**
+     * 更新已预约人数
+     */
+    void editReservationsByOrderDate(OrderSetting orderSetting);
+
+    long findCountByOrderDate(Date orderDate);
 }

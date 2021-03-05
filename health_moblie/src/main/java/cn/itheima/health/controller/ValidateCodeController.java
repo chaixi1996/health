@@ -52,12 +52,11 @@ public class ValidateCodeController {
             SMSUtils.sendShortMessage(SMSUtils.VALIDATE_CODE,telephone,validatecode);
             //发送成功存入redis
             jedis.setex(key,10*60,validatecode);
+            jedis.close();
             return new Result(true,MessageConstant.SEND_VALIDATECODE_SUCCESS);
         } catch (ClientException e) {
             e.printStackTrace();
         }
         return new Result(false,MessageConstant.SEND_VALIDATECODE_FAIL);
     }
-
-
 }

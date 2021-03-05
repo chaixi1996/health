@@ -76,10 +76,11 @@ public class OrderSettingServiceImpl implements OrderSettingService {
             //判断已经预约的人数是否大于要更新的最大可预约人数，reverations 》 传递进来的number数量，则不更新，要报错
             if (orderSetting.getNumber() < os.getReservations()) {
                 //已经预约的人数高于最大预约人数，不允许
-                throw  new HealthException("最大预约人数不能小于已预约人数！");
+                throw  new HealthException(os.getOrderDate() + "中：可预约数不能小于已预约数");
+            }else {
+                //reverations <= 传递的number数量，则要更新最大的可预约数量
+                orderSettingDao.updateNumber(orderSetting);
             }
-            //reverations 《= 传递的number数量，则要更新最大的可预约数量
-            orderSettingDao.editNumberByOrderDate(orderSetting);
         }else {
             //不存在
             //添加预约设置信息
