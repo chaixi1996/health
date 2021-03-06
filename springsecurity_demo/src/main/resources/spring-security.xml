@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xmlns:http="http://www.springframework.org/schema/security"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd         http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
+
+    <!--拦截规则
+        auto-config：自动装配，处理login页面，认证处理
+        use-expressions：是否使用spring表达式，与下面的intercept-url属性access有关
+        true：access的值可以为hasAnyRole hasAnthority。。。
+        false：必须使用ROLE_开头的，ROLE_必须大写
+        intercept-url：拦截URL配置
+        pattern：匹配规则/**所有
+        access：要访问必须有这个权限，给拦截的url标定权限
+        这里的意思是、：要访问/** 登录用户必须有这个ROLE_ADMIN角色才能访问
+    -->
+
+    <security:http auto-config="true" use-expressions="false">
+        <security:intercept-url pattern="/**" access="ROLE_ADMIN"/>
+    </security:http>
+    <!--认证管理器
+
+    -->
+    <security:authentication-manager>
+        <!--认证信息提供者，认证的方式,提供登录用户信息-->
+        <security:authentication-provider>
+            <security:user-service>
+                <!--在内存中写死
+                    必须包含3个信息
+                    name用户名
+                    password，密码
+                    authorities 权限集合
+                -->
+                <security:user name="admin" authorities="ROLE_ADMIN" password="{noop}admin"/>
+            </security:user-service>
+        </security:authentication-provider>
+    </security:authentication-manager>
+</beans>

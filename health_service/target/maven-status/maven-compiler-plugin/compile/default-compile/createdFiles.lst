@@ -1,7 +1,7 @@
 cn\itheima\health\service\impl\OrderServiceImpl.class
 cn\itheima\health\service\ServiceApplication.class
+cn\itheima\health\service\impl\MenberServiceImpl.class
 cn\itheima\health\service\impl\CheckGroupServiceImpl.class
 cn\itheima\health\service\impl\SetMealServiceImpl.class
 cn\itheima\health\service\impl\CheckItemServiceImpl.class
-cn\itheima\health\service\OrderService.class
 cn\itheima\health\service\impl\OrderSettingServiceImpl.class
